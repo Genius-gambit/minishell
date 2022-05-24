@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makhtar & apila-va <makhtar@student.42a    +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:16 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 13:29:17 by makhtar & a      ###   ########.fr       */
+/*   Updated: 2022/05/24 16:30:28 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ char	**tokens_split(char *input)
 	ret = 0;
 	toks = NULL;
 	tokens = split_to_tokens(input);
+	if (tokens[0] == NULL)
+	{
+		ft_free_str_array(&tokens);
+		return (NULL);
+	}
 	ret = check_cmds_qtes(tokens);
 	if (!tokens || !is_token_syntax_valid(tokens) || ret)
 	{

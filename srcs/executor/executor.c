@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:54 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 11:35:05 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/24 17:28:34 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exec_child(t_pars_tokens *pa_tkns, char *path, int i, int **p)
 	k = i;
 	if (pa_tkns[i].pipe)
 		close_pipes_in_child(i, p, pa_tkns);
-	if (!is_inbuilt(pa_tkns[k].cmd[0]) && path)
+	if (!is_inbuilt(pa_tkns[k].cmd[0]) && path && !ft_eco_check(pa_tkns[k].cmd[0]))
 	{
 		if (pa_tkns[i].pipe)
 			duplicate_fds(pa_tkns, i, p);
@@ -69,9 +69,11 @@ void	exec_child(t_pars_tokens *pa_tkns, char *path, int i, int **p)
 			duplicate_file_fds(pa_tkns, i);
 		call_execve(pa_tkns, path, k);
 	}
-	else if (is_inbuilt(pa_tkns[k].cmd[0]))
-		;
-	else
+	else if (is_inbuilt(pa_tkns[k].cmd[0]) && pa_tkns[i].pipe)
+	{
+		handle_inbuilt_redir(pa_tkns, i, p);
+	}
+	else if (!is_inbuilt(pa_tkns[k].cmd[0]))
 	{
 		closing_pipes(pa_tkns, i, p);
 		if (ft_strlen(pa_tkns[i].cmd[0]) > 0)
@@ -90,7 +92,7 @@ void	execute_commands(t_pars_tokens *pa_tkns, char *path, \
 		re_init_fds_nd_path(&path);
 		if (handle_in_redirections(pa_tkns, &i))
 			continue ;
-		g_env.stat_code = execute_inbuilts(pa_tkns, i, &path, p);
+		g_env.stat_code =  execute_inbuilts(pa_tkns, i, &path, p);
 		pid[i] = fork();
 		g_env.s_pid = pid[i];
 		if (pid[i] < 0)

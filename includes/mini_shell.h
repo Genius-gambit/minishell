@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:31:33 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 11:43:16 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/24 16:50:03 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,10 @@ int				init(char ***path_splitted);
 char			*ft_strjoin2(char *saved_line, char *buffer);
 void			placing_vals_SHLVL(char *str);
 void			increment_s_vals(void);
+int				ft_eco_check(char *str);
 int				execute_inbuilts(t_pars_tokens *pa_tokens, int i, \
 				char **path, int **p);
+int				execute_inbuilt(t_pars_tokens *pa_tokens, int i);			
 int				handle_in_and_here_doc(t_pars_tokens *pa_tkns, int i);
 int				handle_pipes(t_pars_tokens *pa_tokens, int i);
 int				handle_output_redirections(char **cmd_split,

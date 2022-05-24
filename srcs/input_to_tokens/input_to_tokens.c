@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_to_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makhtar & apila-va <makhtar@student.42a    +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:28:44 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 13:28:45 by makhtar & a      ###   ########.fr       */
+/*   Updated: 2022/05/24 15:24:13 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

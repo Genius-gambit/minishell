@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:44 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 15:56:00 by dfurneau         ###   ########.fr       */
+/*   Updated: 2022/05/24 17:37:18 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	access_cmnd(char *abs_cmd_path, t_pars_tokens *pa_tokens, int i)
 			}
 		}
 		else
-			return (error_print("YES", ":-:command not found", NULL));
+			return (error_print("YES", ":-:command not found", pa_tokens[i].cmd[0]));
 	}
 	else
-		return (error_print("YES", ":-:command not found", NULL));
+		return (error_print("YES", ":-:command not found", pa_tokens[i].cmd[0]));
 	return (0);
 }
 
@@ -94,16 +94,18 @@ int	execute_inbuilts(t_pars_tokens *pa_tokens, int i, char **path, int **p)
 	abs_cmd_path = NULL;
 	if (pa_tokens[i].cmd[0])
 	{
-		if (is_inbuilt(pa_tokens[i].cmd[0]))
+		if (is_inbuilt(pa_tokens[i].cmd[0]) && !pa_tokens[i].pipe)
 			return (handle_inbuilt_redir(pa_tokens, i, p));
 	}
 	else
 		return (0);
-	if (pa_tokens[i].cmd && (g_env.env_var[get_env("PATH")] != NULL))
+	if (pa_tokens[i].cmd && !is_inbuilt(pa_tokens[i].cmd[0]) && (g_env.env_var[get_env("PATH")] != NULL))
 	{
 		abs_cmd_path = get_abs_cmd(pa_tokens[i].cmd[0]);
 		*path = abs_cmd_path;
 	}
+	else
+		return (0);
 	if (access_cmnd(abs_cmd_path, pa_tokens, i))
 		return (127);
 	return (0);

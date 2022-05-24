@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:30:22 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 13:03:23 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/24 17:22:44 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,6 @@ TODO : THESE TEST CASES ARE NOT WORKING SAME AS THE SYSTEM ECHO FUNCTION
 // 		ft_putchar_fd('\n', 1);
 // }
 
-static int	check_pipes(t_pars_tokens *pa_tokens, int i)
-{
-	if (pa_tokens[i].pipe == 2 || pa_tokens[i].pipe == 0)
-	{
-		if (pa_tokens[i].pipe == 0)
-			return (1);
-		else if (pa_tokens[i].cmd[1] == NULL)
-			return (1);
-	}
-	else if (pa_tokens[i].pipe == 1)
-	{
-		if (pa_tokens[i].cmd[1] == NULL)
-			return (1);
-	}
-	return (0);
-}
-
 int	execute_inbuilt(t_pars_tokens *pa_tokens, int i)
 {
 	if (g_env.fd_out == -1)
@@ -74,8 +57,7 @@ int	execute_inbuilt(t_pars_tokens *pa_tokens, int i)
 		echo(pa_tokens[i].cmd, pa_tokens[i].cmd_cpy);
 		return (EXIT_SUCCESS);
 	}
-	else if ((!ft_strcmp(pa_tokens[i].cmd[0], "export"))
-		&& check_pipes(pa_tokens, i))
+	else if (!ft_strcmp(pa_tokens[i].cmd[0], "export"))
 		return (export(pa_tokens[i].cmd));
 	else if (ft_strcmp(pa_tokens[i].cmd[0], "env") == 0)
 		return (env_var());
