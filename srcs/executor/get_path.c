@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:30:00 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 20:50:13 by dfurneau         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:13:01 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ void	free_path(char **dup, char **abs_path)
 	free_me(abs_path);
 }
 
+int	isdir(const char *fileName)
+{
+	struct stat	path;
+
+	stat(fileName, &path);
+	return (S_ISREG(path.st_mode));
+}
+
 char	*get_abs_cmd(char *cmd)
 {
 	char	*abs_cmd_path;
@@ -64,7 +72,7 @@ char	*get_abs_cmd(char *cmd)
 	i = 0;
 	if (!cmd)
 		return (cmd);
-	if (access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0 && isdir(cmd))
 		return (ft_strdup(cmd));
 	init(&path_split);
 	while (path_split[i])

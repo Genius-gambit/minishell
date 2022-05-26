@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:31:33 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 16:50:03 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/26 13:22:55 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # include <signal.h>
 # include"executor.h"
 # include <fcntl.h>
+# include <sys/stat.h>
 
 extern t_env_var		g_env;
 typedef struct s_flags
@@ -238,6 +239,9 @@ void			close_pipes_in_parent(int **p);
 void			re_init_fds_nd_path(char **path);
 void			free_pipes(int **p);
 int				call_execve(t_pars_tokens *pa_tokens, char *abs_path, int i);
+void			closing_fds_child(t_pars_tokens *pa_tkns, int i, int **p);
+void			free_child(t_pars_tokens *pa_tkns, \
+				int i, pid_t *pid, char *path);
 void			execute_commands(t_pars_tokens *pa_tkns, \
 				char *path, pid_t *pid, int **p);
 void			create_pipes(t_pars_tokens *pa_tkns, \

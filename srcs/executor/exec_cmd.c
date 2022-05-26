@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:44 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 17:37:18 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/26 11:54:49 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	access_cmnd(char *abs_cmd_path, t_pars_tokens *pa_tokens, int i)
 			}
 		}
 		else
-			return (error_print("YES", ":-:command not found", pa_tokens[i].cmd[0]));
+			return (127);
 	}
 	else
-		return (error_print("YES", ":-:command not found", pa_tokens[i].cmd[0]));
+		return (127);
 	return (0);
 }
 
@@ -81,11 +81,6 @@ int	handle_redirections(t_pars_tokens *pa_tokens, int i)
 	}
 	return (EXIT_SUCCESS);
 }
-// if (is_redir(pa_tokens, i))
-// {
-// 	if (handle_redirections(pa_tokens, i))
-// 		return (EXIT_FAILURE);
-// }
 
 int	execute_inbuilts(t_pars_tokens *pa_tokens, int i, char **path, int **p)
 {
@@ -99,7 +94,8 @@ int	execute_inbuilts(t_pars_tokens *pa_tokens, int i, char **path, int **p)
 	}
 	else
 		return (0);
-	if (pa_tokens[i].cmd && !is_inbuilt(pa_tokens[i].cmd[0]) && (g_env.env_var[get_env("PATH")] != NULL))
+	if (pa_tokens[i].cmd && !is_inbuilt(pa_tokens[i].cmd[0])
+		&& (g_env.env_var[get_env("PATH")] != NULL))
 	{
 		abs_cmd_path = get_abs_cmd(pa_tokens[i].cmd[0]);
 		*path = abs_cmd_path;

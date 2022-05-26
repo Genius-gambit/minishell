@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:54 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 17:28:34 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/26 13:23:13 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,31 @@ void	duplicate_fds(t_pars_tokens *pa_tkns, int i, int **p)
 		if (pa_tkns[i].pipe == 2)
 			;
 		else
+		{
 			dup2(p[i][0], STDIN_FILENO);
+			close(p[i][0]);
+		}	
 	}
 	else if (pa_tkns[i].is_in || pa_tkns[i].here_doc)
+	{
 		dup2(g_env.fd_in, STDIN_FILENO);
+		close(g_env.fd_in);
+	}
 	if (pa_tkns[i].pipe && !pa_tkns[i].is_out && !pa_tkns[i].is_out_appnd)
 	{
 		if (pa_tkns[i].pipe == 1)
 			;
 		else
+		{
 			dup2(p[i + 1][1], STDOUT_FILENO);
+			close(p[i + 1][1]);
+		}
 	}
 	else if (pa_tkns[i].is_out || pa_tkns[i].is_out_appnd)
+	{
 		dup2(g_env.fd_out, STDOUT_FILENO);
+		close(g_env.fd_out);
+	}
 }
 
 void	exec_child(t_pars_tokens *pa_tkns, char *path, int i, int **p)
@@ -61,7 +73,8 @@ void	exec_child(t_pars_tokens *pa_tkns, char *path, int i, int **p)
 	k = i;
 	if (pa_tkns[i].pipe)
 		close_pipes_in_child(i, p, pa_tkns);
-	if (!is_inbuilt(pa_tkns[k].cmd[0]) && path && !ft_eco_check(pa_tkns[k].cmd[0]))
+	if (!is_inbuilt(pa_tkns[k].cmd[0]) && path
+		&& !ft_eco_check(pa_tkns[k].cmd[0]) && (access(path, X_OK) == 0))
 	{
 		if (pa_tkns[i].pipe)
 			duplicate_fds(pa_tkns, i, p);
@@ -70,14 +83,15 @@ void	exec_child(t_pars_tokens *pa_tkns, char *path, int i, int **p)
 		call_execve(pa_tkns, path, k);
 	}
 	else if (is_inbuilt(pa_tkns[k].cmd[0]) && pa_tkns[i].pipe)
-	{
 		handle_inbuilt_redir(pa_tkns, i, p);
-	}
 	else if (!is_inbuilt(pa_tkns[k].cmd[0]))
 	{
 		closing_pipes(pa_tkns, i, p);
 		if (ft_strlen(pa_tkns[i].cmd[0]) > 0)
+		{
 			g_env.stat_code = 127;
+			error_print("YES", ":-:command not found", pa_tkns[i].cmd[0]);
+		}
 	}
 }
 
@@ -92,7 +106,7 @@ void	execute_commands(t_pars_tokens *pa_tkns, char *path, \
 		re_init_fds_nd_path(&path);
 		if (handle_in_redirections(pa_tkns, &i))
 			continue ;
-		g_env.stat_code =  execute_inbuilts(pa_tkns, i, &path, p);
+		g_env.stat_code = execute_inbuilts(pa_tkns, i, &path, p);
 		pid[i] = fork();
 		g_env.s_pid = pid[i];
 		if (pid[i] < 0)
@@ -100,9 +114,8 @@ void	execute_commands(t_pars_tokens *pa_tkns, char *path, \
 		if (pid[i] == 0)
 		{
 			exec_child(pa_tkns, path, i, p);
-			close_out_in_files_fd(pa_tkns, i);
-			if (g_env.open_heredoc_fdin != 0)
-				close(g_env.open_heredoc_fdin);
+			closing_fds_child(pa_tkns, i, p);
+			free_child(pa_tkns, i, pid, path);
 			exit (g_env.stat_code);
 		}
 		free_path_close(pa_tkns, i, &path);

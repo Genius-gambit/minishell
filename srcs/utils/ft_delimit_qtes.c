@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_delimit_qtes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makhtar & apila-va <makhtar@student.42a    +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:27:28 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 13:27:29 by makhtar & a      ###   ########.fr       */
+/*   Updated: 2022/05/26 10:58:30 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	delimit_qtes(char *str)
 		if (qte)
 		{
 			qte = 0;
-			tmp = strdup(str);
+			tmp = ft_strdup(str);
 			parse_str_qte(str, tmp, &qte);
 			j = 0;
 			while (tmp[j])

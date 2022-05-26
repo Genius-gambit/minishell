@@ -6,7 +6,7 @@
 #    By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 13:31:45 by makhtar & a       #+#    #+#              #
-#    Updated: 2022/05/24 12:14:05 by makhtar          ###   ########.fr        #
+#    Updated: 2022/05/26 14:21:01 by makhtar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ RED = \033[0;31m
 BLACK = \033[0;30m
 WHITE = \033[1;37m
 
-.SILENT:
+# .SILENT:
 
 NAME = minishell
 
@@ -94,13 +94,14 @@ OBJS = ${SRCS:.c=.o}
 
 RM = rm -rf
 CC = gcc -ggdb -g
-CFLAGS = -Wall -Wextra -Werror -lreadline -L /usr/local/Cellar/readline/8.1/lib -I /usr/local/Cellar/readline/8.1/include
+CFLAGS = -Wall -Wextra -Werror -I /usr/local/Cellar/readline/8.1/include
+LFLAGS = -lreadline -L /usr/local/Cellar/readline/8.1/lib
 
-${NAME}:
+${NAME}:${OBJS}
 		@echo "${WHITE}Have patience. This will take some moment!"
 			${MAKE} all -C libft/
 			cp ./libft/libft.a ./
-			${CC} ${SRCS} libft.a ${CFLAGS} -lreadline -L /usr/local/Cellar/readline/8.1/lib -I /usr/local/Cellar/readline/8.1/include  -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} ${LFLAGS} libft.a -o ${NAME}
 		@echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNK00KNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
 		@echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWKd;.${BLACK}TT${WHITE}:ONWWWWWWWWNKXWWWWWWWWWWXKNWWWWWWWWNO:${BLACK}TT${WHITE}.;dKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
 		@echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNOc.${BLACK}TTTTTT${WHITE}.';ldk0XXX0${BLACK}:;${WHITE}oddddddddo${BLACK};:${WHITE}0XXK0kdl:'.${BLACK}TTTTTT${WHITE}.cONWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
@@ -134,10 +135,15 @@ all:	${NAME}
 clean:
 		${RM} libft.a
 		${RM} ${OBJS}
+		${RM} minishell.dSYM/
 		${MAKE} clean -C ./libft/
+		
 
 fclean:	clean
 		${RM} ${NAME}
 		${MAKE} fclean -C ./libft/
 
 re:	fclean all
+
+leak:
+		bash leaks.sh

@@ -6,7 +6,7 @@
 /*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:28:13 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/24 17:33:08 by makhtar          ###   ########.fr       */
+/*   Updated: 2022/05/26 13:47:15 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	exit_close_fds(int fd1, int fd2, int exit_status)
 
 int	is_rdr(char *str)
 {
-	if (!strcmp(str, ">"))
+	if (!ft_strcmp(str, ">"))
 		return (1);
-	else if (!strcmp(str, "<"))
+	else if (!ft_strcmp(str, "<"))
 		return (1);
-	else if (!strcmp(str, "<<"))
+	else if (!ft_strcmp(str, "<<"))
 		return (1);
-	else if (!strcmp(str, ">>"))
+	else if (!ft_strcmp(str, ">>"))
 		return (1);
 	return (0);
 }

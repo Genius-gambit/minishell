@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfurneau <dfurneau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:29:47 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 20:34:54 by dfurneau         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:11:25 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	call_execve(t_pars_tokens *pa_tokens, char *abs_path, int i)
 	if (execve(abs_path, pa_tokens[i].cmd, g_env.env_var) == -1)
 	{
 		g_env.stat_code = 127;
-		ft_putstr_fd(":-:command not found\n", 2);
+		error_print("YES", ":-:command not found", pa_tokens[i].cmd[0]);
 	}
 	return (g_env.stat_code);
 }

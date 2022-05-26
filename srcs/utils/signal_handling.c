@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makhtar & apila-va <makhtar@student.42a    +#+  +:+       +#+        */
+/*   By: makhtar <makhtar@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:27:53 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 13:27:54 by makhtar & a      ###   ########.fr       */
+/*   Updated: 2022/05/25 14:19:10 by makhtar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_nothing(void)
 {
 	rl_on_new_line();
 	rl_redisplay();
-	write(2, "  \b\b", 4);
+	write(2, "  \b\b  \b\b", 8);
 }
 
 void	signal_handler(int signum)
@@ -51,7 +51,7 @@ void	signal_handler(int signum)
 		if (g_env.s_pid)
 		{
 			ft_putendl_fd("\b\bQuit", 2);
-			g_env.stat_code = 1;
+			g_env.stat_code = 131;
 		}
 		else
 			print_nothing();

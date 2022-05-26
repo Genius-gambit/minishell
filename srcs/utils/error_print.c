@@ -6,7 +6,7 @@
 /*   By: makhtar & apila-va <makhtar@student.42a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:27:16 by makhtar & a       #+#    #+#             */
-/*   Updated: 2022/05/23 13:27:17 by makhtar & a      ###   ########.fr       */
+/*   Updated: 2022/05/25 01:17:42 by makhtar & a      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ int	error_print(char *stat_code, char *print, char *str)
 		ft_putstr_fd(" : ", 2);
 	}
 	ft_putendl_fd(print, 2);
+	if (stat_code)
+		return (127);
 	return (EXIT_FAILURE);
 }
